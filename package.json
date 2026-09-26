@@ -13,9 +13,12 @@
 	},
 	"dependencies": {
 		"@opennextjs/cloudflare": "1.14.0",
+		"@supabase/supabase-js": "^2.117.2",
+		"lucide-react": "^1.48.0",
 		"next": "16.0.7",
 		"react": "19.2.1",
-		"react-dom": "19.2.1"
+		"react-dom": "19.2.1",
+		"sonner": "^2.0.8"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "3",
@@ -36,7 +39,7 @@
 		"check": "npm run build && tsc",
 		"deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
 		"dev": "next dev",
-		"lint": "next lint",
+		"lint": "eslint src eslint.config.mjs",
 		"preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
 		"start": "next start"
 	}

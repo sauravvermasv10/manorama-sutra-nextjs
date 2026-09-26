@@ -1,26 +1,83 @@
 @import "tailwindcss";
 
-:root {
-	--background: #ffffff;
-	--foreground: #171717;
-}
-
 @theme inline {
-	--color-background: var(--background);
-	--color-foreground: var(--foreground);
-	--font-sans: var(--font-geist-sans);
-	--font-mono: var(--font-geist-mono);
+	--color-background: hsl(var(--background));
+	--color-foreground: hsl(var(--foreground));
+	--color-border: hsl(var(--border));
+	--color-input: hsl(var(--input));
+	--color-ring: hsl(var(--ring));
+	--color-destructive: hsl(var(--destructive));
+	--color-walnut: #4d2c19;
+	--color-walnut-50: #f8f1eb;
+	--color-walnut-100: #e9d7c6;
+	--color-walnut-500: #7a4a2a;
+	--color-walnut-700: #4d2c19;
+	--color-walnut-900: #2d180c;
+	--color-gold: #b38b4d;
+	--color-gold-bright: #d4af37;
+	--color-gold-soft: #e2c789;
+	--color-parchment: #fcf9f8;
+	--color-parchment-linen: #f6f3f2;
+	--color-parchment-muted: #efe9e3;
+	--color-parchment-outline: #e8e2de;
+	--font-serif: var(--font-playfair), Georgia, serif;
+	--font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-	:root {
-		--background: #0a0a0a;
-		--foreground: #ededed;
-	}
+:root {
+	--background: 15 43% 98%;
+	--foreground: 21 58% 12%;
+	--border: 24 15% 89%;
+	--input: 24 15% 89%;
+	--ring: 35 43% 50%;
+	--destructive: 0 62% 45%;
+}
+
+* {
+	box-sizing: border-box;
+	border-color: hsl(var(--border));
+}
+
+html {
+	scroll-behavior: smooth;
 }
 
 body {
-	background: var(--background);
-	color: var(--foreground);
-	font-family: Arial, Helvetica, sans-serif;
+	margin: 0;
+	background: #fcf9f8;
+	color: #2d180c;
+	font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+	-webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	font-family: var(--font-playfair), Georgia, serif;
+}
+
+.container {
+	width: 100%;
+	max-width: 1400px;
+	margin-inline: auto;
+	padding-inline: 1.5rem;
+}
+
+.heritage-divider {
+	height: 1px;
+	background-image: linear-gradient(90deg, transparent, #b38b4d 20%, #d4af37 50%, #b38b4d 80%, transparent);
+}
+
+.gold-text {
+	color: #b38b4d;
+	background: linear-gradient(90deg, #b38b4d, #d4af37 45%, #b38b4d);
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+@media (min-width: 768px) {
+	.container {
+		padding-inline: 2rem;
+	}
 }

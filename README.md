@@ -1,63 +1,39 @@
-# Next.js Framework Starter
+# Manorama Sutra
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/cloudflare/templates/tree/main/next-starter-template)
+Manorama Sutra is a handloom saree catalogue and atelier management app built with Next.js 16, React 19, Supabase, and OpenNext for Cloudflare Workers.
 
-<!-- dash-content-start -->
+## Local development
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). It's deployed on Cloudflare Workers as a [static website](https://developers.cloudflare.com/workers/static-assets/).
+Use Node.js 22 or newer, then install dependencies and configure Supabase credentials:
 
-This template uses [OpenNext](https://opennext.js.org/) via the [OpenNext Cloudflare adapter](https://opennext.js.org/cloudflare), which works by taking the Next.js build output and transforming it, so that it can run in Cloudflare Workers.
-
-<!-- dash-content-end -->
-
-Outside of this repo, you can start a new project with this template using [C3](https://developers.cloudflare.com/pages/get-started/c3/) (the `create-cloudflare` CLI):
-
-```bash
-npm create cloudflare@latest -- --template=cloudflare/templates/next-starter-template
-```
-
-A live public deployment of this template is available at [https://next-starter-template.templates.workers.dev](https://next-starter-template.templates.workers.dev)
-
-## Getting Started
-
-First, run:
-
-```bash
+```sh
 npm install
-# or
-yarn install
-# or
-pnpm install
-# or
-bun install
-```
-
-Then run the development server (using the package manager of your choice):
-
-```bash
+cp .dev.vars.example .dev.vars
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` in `.dev.vars`. The first catalogue request seeds the `sarees` and `weavers` tables when the sarees table is empty. The tables must use the fields referenced by the API. The included schema permits public reads; atelier write operations require authenticated policies and an authenticated admin flow.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To create and seed the Supabase tables, run [`supabase/schema.sql`](supabase/schema.sql) in the Supabase SQL Editor. Its RLS policies permit public reads of published sarees and weaver profiles, but do not allow anonymous writes or draft access. The current `/admin` UI has no authentication, so its curator operations require adding Supabase Auth to the app and authenticated-only policies before enabling them in production.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Routes
 
-## Deploying To Production
+- `/` is the editorial storefront and featured catalogue.
+- `/collection` provides search, material/occasion/tone filters, and valuation sorting.
+- `/saree/[slug]` shows saree details, images, certifications, and weaver profile.
+- `/admin` manages sarees through draft, curating, and published states and adds weaver profiles.
+- `/api/[...path]` provides the Supabase-backed catalogue and weaver API.
 
-| Command                           | Action                                       |
-| :-------------------------------- | :------------------------------------------- |
-| `npm run build`                   | Build your production site                   |
-| `npm run preview`                 | Preview your build locally, before deploying |
-| `npm run build && npm run deploy` | Deploy your production site to Cloudflare    |
-| `npm wrangler tail`               | View real-time logs for all Workers          |
+The atelier route is not authenticated, matching the source project. Protect it with authentication and restrict Supabase write policies before public production use.
 
-## Learn More
+## Cloudflare Workers
 
-To learn more about Next.js, take a look at the following resources:
+Configure `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` as Worker runtime variables in the Cloudflare dashboard or with Wrangler. Do not put a service-role key in the app or expose it to the browser. Local Worker preview uses `.dev.vars` as well.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```sh
+npm run check
+npm run preview
+npm run deploy
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+`npm run preview` builds the OpenNext Worker and serves it locally. `npm run deploy` builds and deploys the Worker. This target uses the Cloudflare Workers runtime configured in `wrangler.jsonc`; it is not a Cloudflare Pages static export.

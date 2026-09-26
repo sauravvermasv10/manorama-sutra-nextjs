@@ -1,0 +1,30 @@
+'use client'
+
+import Link from 'next/link'
+import { useState } from 'react'
+import { Menu, Search, X } from 'lucide-react'
+
+export function BrandEmblem({ className = '' }) {
+	return <div className={`inline-flex h-12 w-12 items-center justify-center rounded-full border border-gold/60 bg-parchment ${className}`}><svg viewBox="0 0 40 40" className="h-9 w-9" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="none" stroke="#b38b4d" strokeWidth="0.6" /><g fill="none" stroke="#4d2c19" strokeWidth="0.8"><path d="M20 6 C 26 14, 26 26, 20 34 C 14 26, 14 14, 20 6 Z" /><path d="M6 20 C 14 14, 26 14, 34 20 C 26 26, 14 26, 6 20 Z" /></g><circle cx="20" cy="20" r="2" fill="#d4af37" /></svg></div>
+}
+
+export function Header() {
+	const [open, setOpen] = useState(false)
+	return <header className="sticky top-0 z-40 border-b border-parchment-outline bg-parchment/90 backdrop-blur"><div className="container flex h-20 items-center justify-between"><Link href="/" className="flex items-center gap-3"><BrandEmblem /><div className="leading-tight"><div className="font-serif text-lg tracking-wide text-walnut-700">Manorama Sutra</div><div className="text-[10px] uppercase tracking-[0.3em] text-walnut-500">Handloom Atelier</div></div></Link><nav className="hidden items-center gap-10 text-sm text-walnut-700 md:flex"><Link href="/collection" className="transition-colors hover:text-gold">The Collection</Link><Link href="/#journey" className="transition-colors hover:text-gold">Journey of a Saree</Link><Link href="/#weavers" className="transition-colors hover:text-gold">Master Weavers</Link><Link href="/admin" className="transition-colors hover:text-gold">Atelier</Link></nav><div className="flex items-center gap-2"><Link href="/collection" aria-label="Search collection" title="Search collection" className="hidden items-center gap-2 border border-parchment-outline px-3 py-2 text-sm text-walnut-700 hover:border-gold md:inline-flex"><Search className="h-4 w-4" /> Search</Link><button className="p-2 md:hidden" onClick={() => setOpen((value) => !value)} aria-label={open ? 'Close menu' : 'Open menu'}>{open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}</button></div></div>{open && <div className="border-t border-parchment-outline bg-parchment md:hidden"><nav className="container flex flex-col gap-3 py-4 text-sm text-walnut-700"><Link href="/collection" onClick={() => setOpen(false)}>The Collection</Link><Link href="/#journey" onClick={() => setOpen(false)}>Journey of a Saree</Link><Link href="/#weavers" onClick={() => setOpen(false)}>Master Weavers</Link><Link href="/admin" onClick={() => setOpen(false)}>Atelier</Link></nav></div>}</header>
+}
+
+export function Footer() {
+	return <footer className="mt-24 border-t border-parchment-outline bg-parchment-linen"><div className="container grid grid-cols-1 gap-10 py-14 text-sm text-walnut-700 md:grid-cols-4"><div><div className="mb-4 flex items-center gap-3"><BrandEmblem /><div className="font-serif text-lg">Manorama Sutra</div></div><p className="leading-relaxed text-walnut-500">A curated atelier of handloom heritage, woven by the master artisans of India.</p></div><div><div className="mb-3 font-serif">The House</div><ul className="space-y-2 text-walnut-500"><li>Our Philosophy</li><li>The Ateliers</li><li>Bespoke Weaves</li></ul></div><div><div className="mb-3 font-serif">The Craft</div><ul className="space-y-2 text-walnut-500"><li>Silk Care Guide</li><li>Handloom Marks</li><li>Provenance</li></ul></div><div><div className="mb-3 font-serif">Correspond</div><ul className="space-y-2 text-walnut-500"><li>concierge@manoramasutra.in</li><li>Kanchipuram · Varanasi · Chanderi</li></ul></div></div><div className="heritage-divider" /><div className="container flex flex-col justify-between gap-2 py-5 text-xs text-walnut-500 md:flex-row"><div>© {new Date().getFullYear()} Manorama Sutra. All rights reserved.</div><div className="uppercase tracking-[0.25em]">Handloom Heritage — Woven Stories</div></div></footer>
+}
+
+export function CertBadge({ label }) {
+	return <span className="inline-flex items-center gap-1.5 rounded-sm border border-gold/50 bg-parchment px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-walnut-700"><span className="h-1.5 w-1.5 rounded-full bg-gold" />{label}</span>
+}
+
+export function ProductCard({ s }) {
+	return <Link href={`/saree/${s.slug}`} className="group block"><div className="relative aspect-[3/4] overflow-hidden border border-parchment-outline bg-parchment-linen"><img src={s.media?.[0]?.public_url || s.hero_url || 'https://images.unsplash.com/photo-1610030469983-98e550d6193c'} alt={s.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />{s.is_limited_heritage && <div className="absolute left-3 top-3 bg-walnut-700/90 px-2 py-1 text-[10px] uppercase tracking-[0.25em] text-parchment">Limited — Single Piece</div>}<div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/40 to-transparent" /></div><div className="pb-1 pt-4"><div className="text-[10px] uppercase tracking-[0.28em] text-walnut-500">{s.origin_cluster}</div><div className="mt-1 font-serif text-lg leading-snug text-walnut-700 transition-colors group-hover:text-gold">{s.title}</div><div className="mt-2 flex items-center justify-between gap-2"><div className="text-sm text-walnut-700">₹ {Number(s.retail_valuation_inr || 0).toLocaleString('en-IN')}</div><div className="flex gap-1 text-[9px] tracking-wider text-walnut-500">{s.is_silk_mark && <span>SILK</span>}{s.is_handloom_mark && <span>· HANDLOOM</span>}{s.is_organic_dye && <span>· ORGANIC</span>}</div></div></div></Link>
+}
+
+export function GoldDivider() {
+	return <div className="my-8 flex items-center gap-4"><div className="heritage-divider flex-1" /><svg viewBox="0 0 24 24" className="h-4 w-4 text-gold" aria-hidden="true"><path fill="currentColor" d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.4l-4.8 2.5.9-5.4L4.2 7.7l5.4-.8L12 2z" /></svg><div className="heritage-divider flex-1" /></div>
+}
