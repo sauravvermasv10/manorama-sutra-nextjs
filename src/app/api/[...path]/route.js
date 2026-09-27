@@ -57,7 +57,7 @@ async function route(request, path) {
   const url = new URL(request.url)
   const method = request.method
   const supabase = await getSupabase()
-  if (!supabase) return bad('Supabase not configured. Set SUPABASE_URL and SUPABASE_ANON_KEY as Cloudflare Worker variables or local environment variables.', 503)
+  if (!supabase) return bad('Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY in the Cloudflare deployment environment, then redeploy.', 503)
   if (method === 'GET' && (!path.length || path[0] === 'health')) return ok({ status: 'ok' })
   if (method === 'POST' && path[0] === 'seed') {
     await ensureSeed(supabase)
