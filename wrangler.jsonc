@@ -15,5 +15,9 @@
 	"observability": {
 		"enabled": true
 	},
-	"upload_source_maps": true
+	"upload_source_maps": true,
+	"vars": {
+    "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_ejfRZGu9D7FEbqYZjrbgvw_Zvo_KJie",
+    "NEXT_PUBLIC_SUPABASE_URL": "https://udygspjizlmrwjrzhveg.supabase.co"
+  }
 }
